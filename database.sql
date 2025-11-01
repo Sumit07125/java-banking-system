@@ -1,0 +1,23 @@
+CREATE DATABASE IF NOT EXISTS bank_manage;
+USE bank_manage;
+
+CREATE TABLE IF NOT EXISTS accounts (
+  account_number VARCHAR(12) PRIMARY KEY,
+  holder_name VARCHAR(100) NOT NULL,
+  email VARCHAR(150) NOT NULL,
+  atm_pin CHAR(4) NOT NULL,
+  ifsc VARCHAR(11) default 'SBIN000123',
+  balance DECIMAL(15,2) NOT NULL DEFAULT 0.00,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS transactions (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  account_number VARCHAR(12) NOT NULL,
+  transaction_type VARCHAR(20) NOT NULL,
+  amount DECIMAL(15,2) NOT NULL,
+  balance_after DECIMAL(15,2) NOT NULL,
+  remark VARCHAR(255),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (account_number) REFERENCES accounts(account_number) ON DELETE CASCADE
+);
